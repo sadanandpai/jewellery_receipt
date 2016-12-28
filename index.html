@@ -36,7 +36,7 @@
 	</tr>
 	<tr>
 		<td>Invoice No : {{invoice}}</td>
-		<td><b>Date:</b> <script type="text/javascript">var date = new Date(); document.write(date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear());</script></td>
+		<td><b>Date:</b> <input type="date" id="myDate"></td>
 	</tr>
 </table>
 <table align=center border="1" width=90%>
@@ -80,7 +80,9 @@
 
 
 
-<script type="text/javascript">var i = 1;
+<script type="text/javascript">
+	var i = 1;
+	document.getElementById("myDate").value = "2016-12-28";
 function addmoreitem(){
 	i++;
 	var itemList = document.getElementById("items");
