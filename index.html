@@ -1,121 +1,102 @@
-<!DOCTYPE html>
-<html ng-app="myApp">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<style type="text/css">
-.table td, th {
-   text-align: center;   
-}
-</style>
+<!doctype html>
+<html ng-app="ItemApp">
+		<head>
+				<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+				<script src="a.js"></script>
+				<style type="text/css">
+					.tab {
+						border:1;
+						border-collapse: collapse;
+					}
+					.tab td {
+						border-left: 1px solid #000;
+						border-right: 1px solid #000;
+					}
+					.no-left{
+						border-right: 1px solid #000;
+					}
+					.no-right{
+						border-left: 1px solid #000;
+					}
+				</style>
+		</head>
 
-<body ng-controller="myCtrl">
-<textarea ng-model="seller"></textarea>
-<textarea ng-model="buyer"></textarea>
+		<body>
+				<div align=center ng-controller="ItemListController as itemList">
+						
+				<form ng-submit="itemList.additem()">
+						<input type="text" ng-model="itemList.item">
+						<input type="text" ng-model="itemList.qty">
+						<input type="text" ng-model="itemList.rate">
+						<input class="btn-primary" type="submit" value="Add item">
+				</form>
+				<br>
 
-<div id="items">
-	1. Item: <input id="item1" /> Qty: <input id="qty1" /> Rate: <input id="rate1" />
-</div>
-<button onclick="addmoreitem()">Add</button>
-<button onclick="additem()">Add Data</button>
+				<table class="tab" align=center border="1" width=90%>
+						<tr>
+							<th>Tax Invoice</th>
+						</tr>
+				</table>
 
+				<table class="tab" align=center border="1" width=90%>
+						<tr height="80px">
+								<td valign=top width=50%>Seller</td>
+								<td valign=top width=50%>Buyer</td>
+						</tr>
+						<tr>
+								<td>INVOICE NO : {{invoice}}</td>
+								<td><b>Date:</b> <input type="date" id="myDate"></td>
+						</tr>
+				</table>
 
-<table align=center border="1" width=90%>
-	<tr>
-		<th>Tax Invoice</th>
-	</tr>
-</table>
+				<table class="tab" align=center border=1 width=90%>
+						<tr>
+								<th width=10%>SLNO <a href="" ng-click="itemList.deleteItem()"><br>Delete</a> </th>
+								<th width=40%>DESCRIPTION</th>
+								<th width=14%>Quantity</th>
+								<th width=18%>Rate/Gms</th>
+								<th width=18%>Amount</th>
+						</tr>
+				</table>
 
-<table align=center border="1" width=90%>
-	<tr height="80px">
-		<td width=50% ng-bind="seller">Seller</td>
-		<td ng-bind="buyer">Buyer</td>
-	</tr>
-	<tr>
-		<td>Invoice No : {{invoice}}</td>
-		<td><b>Date:</b> <input type="date" id="myDate"></td>
-	</tr>
-</table>
-<table align=center border="1" width=90%>
-	<tr>
-		<th width=25%>Sl No</th>
-		<th width=25%>Items</th>
-		<th width=14%>Qty No</th>
-		<th width=18%>Rate</th>
-		<th width=18%>Total</th>
-	</tr>
-	<tr height="100px">
-		<td id="sl"></td>
-		<td id="itemName"></td>
-		<td id="itemQty"></td>
-		<td id="itemRate"></td>
-		<td id="total"></td>
-	</tr>
+				<table class="tab" height="100px" width=90%>
+						<tr ng-repeat="item in itemList.items">
+							<td width=10%><input type="checkbox" ng-model="item.done">{{$index+1}}</td>
+							<td width=40%>{{item.item}}</td>
+							<td width=14%>{{item.qty}}</td>
+							<td width=18%>{{item.rate}}</td>
+							<td width=18%></td>
+					</tr>
+				</table>
 
+				<table class="tab" align=center border="1" width=90%>
+					<tr>
+						<td width=64.1%></td>
+						<td>Gross</td>
+					</tr>
+					<tr>
+						<td><u>Amount in Words :</u> </td>
+						<td>Total</td>
+					</tr>
+				</table>
 
-</table>
-<table align=center border="1" width=90%>
-	<tr>
-		<td width=64%></td>
-		<td>Gross</td>
-	</tr>
-	<tr>
-		<td>Words</td>
-		<td>Total</td>
-	</tr>
-</table>
-<table align=center border="1" width=90%>
-	<tr>
-		<th>Msg</th>
-	</tr>
-</table>
-<table align=center border="1" width=90%>
-	<tr>
-		<th>Comp generated</th>
-	</tr>
-</table>
+				<table align=center frame="box" width=90%>
+					<tr>
+						<td>
+							<u>Declaration</u><br>
+							We declare that this invoice shows the actual price of the goods <br>described and thatt all particulars are true and correct.
+						</td>
+						<td align=right valign=top>
+							For SAI BULLION TRADERS&nbsp;&nbsp;&nbsp;
+						</td>
+					</tr>
+				</table>
 
-
-
-<script type="text/javascript">
-	var i = 1;
-	document.getElementById("myDate").value = "2016-12-28";
-function addmoreitem(){
-	i++;
-	var itemList = document.getElementById("items");
-	itemList.innerHTML = itemList.innerHTML + "<br>" + i + ". Item: <input id='item" + i + "'/> Qty: <input id='qty" + i + "'/> Rate: <input id='rate" + i + "'/>";
-}
-
-function additem(){
-	var itemNameH = document.getElementById("itemName");
-	var itemQtyH = document.getElementById("itemQty");
-	var itemRateH = document.getElementById("itemRate");
-
-	itemName = "", itemRate="", itemQty="";
-
-	for(j=1;j<=i;j++){
-		itemName = itemName + document.getElementById("item"+j).value + "<br>";
-		itemQty = itemQty + document.getElementById("qty"+j).value + "<br>";
-		itemRate = itemRate + document.getElementById("rate"+j).value + "<br>";
-	}
-	itemNameH.innerHTML =  itemName;
-	itemQtyH.innerHTML =  itemQty;
-	itemRateH.innerHTML =  itemRate;
-}
-
-
-var app = angular.module("myApp", []);
-
-app.controller("myCtrl", function($scope) {
-    $scope.invoice = 10001;
-    $scope.buyer = "Buyer";
-    $scope.seller = "Seller";
-
-
-});</script>
-
-</body>
+				<table class="tab" align=center border="1" width=90%>
+					<tr>
+						<th>This is Computer generated Invoice</th>
+					</tr>
+				</table>
+			</div>
+		</body>
 </html>
