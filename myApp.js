@@ -21,6 +21,7 @@ angular.module('ItemApp', [])
       angular.forEach(olditems, function(item) {
         if (!item.done) $scope.itemList.push(item);
       });
+      $scope.selectionCount();
     };
 
     $scope.editItem = function() {
