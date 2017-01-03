@@ -22,16 +22,19 @@
 		</head>
 
 		<body>
-				<div align=center ng-controller="ItemListController as itemList">
+				<div align=center ng-controller="ItemListController">
 						
-				<form ng-submit="itemList.additem()">
-						<input type="text" ng-model="itemList.item">
-						<input type="text" ng-model="itemList.qty">
-						<input type="text" ng-model="itemList.rate">
-						<input class="btn-primary" type="submit" value="Add item">
+				<form ng-submit="additem()">
+					Desc: <input type="text" ng-model="itemName">
+					Qty: <input type="text" ng-model="itemQty">
+					Rate: <input type="text" ng-model="itemRate">
+					<input class="btn-primary" type="submit" value="Add item" />
 				</form>
-				<br>
+				<button ng-click="deleteItem()" ng-show="selectionCounter">Delete</button>
+				<button ng-click="editItem()" ng-show="singleSelection">Edit</button>
+				<button ng-click="updateItem()" ng-show="singleSelection">Update</button>
 
+				<br><br>
 				<table class="tab" align=center border="1" width=90%>
 						<tr>
 							<th>Tax Invoice</th>
@@ -51,7 +54,7 @@
 
 				<table class="tab" align=center border=1 width=90%>
 						<tr>
-								<th width=10%>SLNO <a href="" ng-click="itemList.deleteItem()"><br>Delete</a> </th>
+								<th width=10%>SL NO</th>
 								<th width=40%>DESCRIPTION</th>
 								<th width=14%>Quantity</th>
 								<th width=18%>Rate/Gms</th>
@@ -60,9 +63,9 @@
 				</table>
 
 				<table class="tab" height="100px" width=90%>
-						<tr ng-repeat="item in itemList.items">
-							<td width=10%><input type="checkbox" ng-model="item.done">{{$index+1}}</td>
-							<td width=40%>{{item.item}}</td>
+						<tr ng-repeat="item in itemList">
+							<td width=10%><input type="checkbox" ng-model="item.done" ng-click="selectionCount()">{{$index+1}}</td>
+							<td width=40%>{{item.name}}</td>
 							<td width=14%>{{item.qty}}</td>
 							<td width=18%>{{item.rate}}</td>
 							<td width=18%></td>
