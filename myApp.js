@@ -10,7 +10,7 @@ angular.module('ItemApp', [])
     $scope.additem = function() {
       $scope.itemList.push({name:$scope.itemName, qty:$scope.itemQty, rate:$scope.itemRate, gross:$scope.itemQty * $scope.itemRate, done:false});
       $scope.gross = $scope.gross + $scope.itemQty * $scope.itemRate;
-      $scope.vat = $scope.gross * 0.1;
+      $scope.vat = Math.round(($scope.gross * 0.1) *100) / 100;
       $scope.total = $scope.gross + $scope.vat;
       $scope.itemName = '';
       $scope.itemQty = '';
@@ -29,7 +29,7 @@ angular.module('ItemApp', [])
       angular.forEach($scope.itemList, function(item) {
           $scope.gross = $scope.gross + item.qty * item.rate;
       });
-      $scope.vat = $scope.gross * 0.1;
+      $scope.vat = Math.round(($scope.gross * 0.1) *100) / 100;
       $scope.total = $scope.gross + $scope.vat;
     };
 
@@ -70,7 +70,7 @@ angular.module('ItemApp', [])
         angular.forEach($scope.itemList, function(item) {
           $scope.gross = $scope.gross + item.qty * item.rate;
         });
-        $scope.vat = $scope.gross * 0.1;
+        $scope.vat = Math.round(($scope.gross * 0.1) *100) / 100;
         $scope.total = $scope.gross + $scope.vat;
       }
     };
