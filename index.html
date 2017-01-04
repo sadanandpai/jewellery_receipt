@@ -12,6 +12,9 @@
 					border-left: 1px solid #000;
 					border-right: 1px solid #000;
 				}
+				.no-border td {
+					border: none;
+				}
 				.no-left{
 					border-right: 1px solid #000;
 				}
@@ -25,9 +28,9 @@
 				<div align=center ng-controller="ItemListController">
 						
 				<form ng-submit="additem()">
-					Desc: <input type="text" ng-model="itemName">
-					Qty: <input type="text" ng-model="itemQty">
-					Rate: <input type="text" ng-model="itemRate">
+					Desc: <input type="text" required="required" ng-model="itemName">
+					Qty: <input type="number" required="required" ng-model="itemQty">
+					Rate: <input type="number" required="required" ng-model="itemRate">
 					<input class="btn-primary" type="submit" value="Add item" />
 				</form>
 				<button ng-click="deleteItem()" ng-show="selectionCounter">Delete</button>
@@ -68,18 +71,36 @@
 							<td width=40%>{{item.name}}</td>
 							<td width=14%>{{item.qty}}</td>
 							<td width=18%>{{item.rate}}</td>
-							<td width=18%></td>
+							<td width=18%>{{item.gross}}</td>
 					</tr>
 				</table>
 
 				<table class="tab" align=center border="1" width=90%>
 					<tr>
-						<td width=64.1%></td>
-						<td>Gross</td>
+						<td width=64.2%></td>
+						<td>
+							<table class="no-border" width="100%">
+								<tr>
+									<td>Gross</td>
+									<td align="right">{{gross}}</td>
+								</tr>
+								<tr>
+									<td>VAT 1.00%</td>
+									<td align="right">{{vat}}</td>
+								</tr>
+							</table>
+						</td>
 					</tr>
 					<tr>
 						<td><u>Amount in Words :</u> </td>
-						<td>Total</td>
+						<td>
+							<table class="no-border" width="100%">
+								<tr>
+									<td>TOTAL</td>
+									<td align="right">{{total}}</td>
+								</tr>
+							</table>
+						</td>
 					</tr>
 				</table>
 
