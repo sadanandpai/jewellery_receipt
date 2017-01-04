@@ -1,15 +1,17 @@
 angular.module('ItemApp', [])
   .controller('ItemListController', function($scope) {
-    $scope.itemList = [
-      {name:'aaa', qty:'11', rate:'1212'},
-      {name:'bbb', qty:'22', rate:'3434'},
-      {name:'ccc', qty:'33', rate:'6767'}
-    ];
+    $scope.itemList = [];
     $scope.selectionCounter = 0;
     $scope.singleSelection = false;
+    $scope.gross = 0;
+    $scope.vat = 0;
+    $scope.total = 0;
  
     $scope.additem = function() {
-      $scope.itemList.push({name:$scope.itemName, qty:$scope.itemQty, rate:$scope.itemRate, done:false});
+      $scope.itemList.push({name:$scope.itemName, qty:$scope.itemQty, rate:$scope.itemRate, gross:$scope.itemQty * $scope.itemRate, done:false});
+      $scope.gross = $scope.gross + $scope.itemQty * $scope.itemRate;
+      $scope.vat = $scope.gross * 0.1;
+      $scope.total = $scope.gross + $scope.vat;
       $scope.itemName = '';
       $scope.itemQty = '';
       $scope.itemRate = '';
@@ -22,6 +24,13 @@ angular.module('ItemApp', [])
         if (!item.done) $scope.itemList.push(item);
       });
       $scope.selectionCount();
+
+      $scope.gross = 0;
+      angular.forEach($scope.itemList, function(item) {
+          $scope.gross = $scope.gross + item.qty * item.rate;
+      });
+      $scope.vat = $scope.gross * 0.1;
+      $scope.total = $scope.gross + $scope.vat;
     };
 
     $scope.editItem = function() {
@@ -43,16 +52,27 @@ angular.module('ItemApp', [])
 
 
     $scope.updateItem = function() {
-      angular.forEach($scope.itemList, function(item) {
-        if ($scope.selectionCounter == 1 && item.done){
-          item.name = $scope.itemName;
-          item.qty = $scope.itemQty ;
-          item.rate = $scope.itemRate;
-          $scope.itemName ='';
-          $scope.itemQty = '';
-          $scope.itemRate ='';
-        }
-      });
+      if ($scope.selectionCounter == 1){
+        angular.forEach($scope.itemList, function(item) {
+            if (item.done){
+              item.name = $scope.itemName;
+              item.qty = $scope.itemQty;
+              item.rate = $scope.itemRate;
+              item.gross = item.qty * item.rate;
+              $scope.itemName ='';
+              $scope.itemQty = '';
+              $scope.itemRate ='';
+              item.done = !item.done;
+            }
+        });
+
+        $scope.gross = 0;
+        angular.forEach($scope.itemList, function(item) {
+          $scope.gross = $scope.gross + item.qty * item.rate;
+        });
+        $scope.vat = $scope.gross * 0.1;
+        $scope.total = $scope.gross + $scope.vat;
+      }
     };
 
 
