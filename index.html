@@ -69,9 +69,9 @@
 						<tr ng-repeat="item in itemList">
 							<td width=10%><input type="checkbox" ng-model="item.done" ng-click="selectionCount()">{{$index+1}}</td>
 							<td width=40%>{{item.name}}</td>
-							<td width=14%>{{item.qty}}</td>
-							<td width=18%>{{item.rate}}</td>
-							<td width=18%>{{item.gross}}</td>
+							<td width=14% align="center">{{item.qty}}</td>
+							<td width=18% align="right">{{item.rate}}</td>
+							<td width=18% align="right">{{item.gross}}</td>
 					</tr>
 				</table>
 
