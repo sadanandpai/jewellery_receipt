@@ -89,12 +89,10 @@ angular.module('ItemApp', [])
       $scope.vat = Math.round(($scope.gross * $scope.vat_value / 100) *100) / 100;
       $scope.total = $scope.gross + $scope.vat;
       $scope.totalWords = $scope.inwords($scope.total);
-      alert($scope.totalWords);
     }
 
 
     $scope.inwords = function (num) {
-      alert(num);
       num = Number(num);
       var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
       var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
@@ -104,7 +102,6 @@ angular.module('ItemApp', [])
       n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
       if (!n) return; 
       var str = '';
-      alert(11);
       str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
       str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
       str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
