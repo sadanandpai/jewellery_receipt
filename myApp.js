@@ -27,13 +27,7 @@ angular.module('ItemApp', [])
         if (!item.done) $scope.itemList.push(item);
       });
       $scope.selectionCount();
-
-      $scope.gross = 0;
-      angular.forEach($scope.itemList, function(item) {
-          $scope.gross = $scope.gross + item.qty * item.rate;
-      });
-      $scope.vat = Math.round(($scope.gross * 0.1) *100) / 100;
-      $scope.total = $scope.gross + $scope.vat;
+      $scope.receiptUpdate();
     };
 
     $scope.editItem = function() {
