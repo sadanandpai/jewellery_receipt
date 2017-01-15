@@ -1,30 +1,17 @@
 <!doctype html>
 <html ng-app="ItemApp">
 		<head>
+			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-			<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 			<script src="myApp.js"></script>
 			<style type="text/css">
-				.tab {
-					border:1;
-					border-collapse: collapse;
+				.table-bordered{
+	   				border: 1.5px double black; 
 				}
-				.tab td {
-					border-left: 1px solid #000;
-					border-right: 1px solid #000;
-				}
-				.no-border td {
-					border: none;
-				}
-				.no-left{
-					border-right: 1px solid #000;
-				}
-				.no-right{
-					border-left: 1px solid #000;
-				}
-				table.fixed_width { table-layout:fixed; }
-				table.fixed_width td { overflow: hidden; }
-				table{ empty-cells: show; }
+
 			</style>
 		</head>
 
@@ -46,12 +33,12 @@
 				<br><br>
 			</div>
 
-			<table class="tab" align=center border="1" width=90%>
+			<table class="table-bordered" align=center border="1" width=90%>
 					<tr>
 						<th>Tax Invoice</th>
 					</tr>
 			</table>
-			<table class="tab" align=center border="1" width=90%>
+			<table class="table-bordered" align=center border="1" width=90%>
 					<tr height="80px">
 							<td id="seller_details" valign=top width="50%"></td>
 							<td id="buyer_details" valign=top width="50%"></td>
@@ -61,7 +48,7 @@
 							<td><b>Date:</b> <input type="date" id="myDate"></td>
 					</tr>
 			</table>
-			<table class="tab" align=center border=1 width=90%>
+			<table class="table-bordered" align=center border=1 width=90%>
 					<tr>
 							<th width=10%>SL NO</th>
 							<th width=40%>DESCRIPTION</th>
@@ -70,16 +57,16 @@
 							<th width=18%>Amount</th>
 					</tr>
 			</table>
-			<table class="tab" height="100px" width=90%>
+			<table class="table-bordered" height="100px" width=90%>
 					<tr ng-repeat="item in itemList">
-						<td width=10%><input type="checkbox" ng-model="item.done" ng-click="selectionCount()">{{$index+1}}<td>
+						<td width=10% align="center"><input type="checkbox" ng-hide="printer" ng-model="item.done" ng-click="selectionCount()">{{$index+1}}</td>
 						<td width=40%>{{item.name}}</td>
 						<td width=14% align="center">{{item.qty}}</td>
 						<td width=18% align="right">{{item.rate}}</td>
 						<td width=18% align="right">{{item.gross}}</td>
 				</tr>
 			</table>
-			<table class="tab" align=center border="1" width=90%>
+			<table class="table-bordered" align=center border="1" width=90%>
 				<tr>
 					<td width=64.2%></td>
 					<td>
@@ -118,7 +105,7 @@
 					</td>
 				</tr>
 			</table>
-			<table class="tab" align=center border="1" width=90%>
+			<table class="table-bordered" align=center border="1" width=90%>
 				<tr>
 					<th>This is Computer generated Invoice</th>
 				</tr>
@@ -126,8 +113,8 @@
 			<br><button ng-click="save()">Save</button>
 			<button ng-click="printPage()">Print</button>
 			<br>
-			<textarea ng-model="seller" ng-change="seller_buyer_change()"></textarea>
-			<textarea ng-model="buyer" ng-change="seller_buyer_change()"></textarea>
+			<textarea ng-model="seller" ng-hide="printer" ng-change="seller_buyer_change()"></textarea>
+			<textarea ng-model="buyer" ng-hide="printer" ng-change="seller_buyer_change()"></textarea>
 
 		</div>
 
