@@ -2,6 +2,7 @@
 <html ng-app="ItemApp">
 		<head>
 			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+			<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 			<script src="myApp.js"></script>
 			<style type="text/css">
 				.tab {
@@ -21,6 +22,9 @@
 				.no-right{
 					border-left: 1px solid #000;
 				}
+				table.fixed_width { table-layout:fixed; }
+				table.fixed_width td { overflow: hidden; }
+				table{ empty-cells: show; }
 			</style>
 		</head>
 
@@ -42,15 +46,15 @@
 				<br><br>
 			</div>
 
-			<table class="tab" align=center border="1" width=90%>
+			<table class="tab" align=center border="1" width=970px>
 					<tr>
 						<th>Tax Invoice</th>
 					</tr>
 			</table>
-			<table class="tab" align=center border="1" width=90%>
+			<table class="tab" align=center border="1" width=970px>
 					<tr height="80px">
-							<td valign=top width=50%>Seller</td>
-							<td valign=top width=50%>Buyer</td>
+							<td id="seller_details" valign=top width="485px"></td>
+							<td id="buyer_details" valign=top width="485px"></td>
 					</tr>
 					<tr>
 							<td>INVOICE NO : {{invoice}}</td>
@@ -119,8 +123,13 @@
 					<th>This is Computer generated Invoice</th>
 				</tr>
 			</table>
-			<br><button>Save</button>
+			<br><button ng-click="save()">Save</button>
 			<button ng-click="printPage()">Print</button>
-			</div>
-		</body>
+			<br>
+			<textarea ng-model="seller" ng-change="seller_buyer_change()"></textarea>
+			<textarea ng-model="buyer" ng-change="seller_buyer_change()"></textarea>
+
+		</div>
+
+	</body>
 </html>
