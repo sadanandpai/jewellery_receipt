@@ -1,5 +1,5 @@
 angular.module('ItemApp', [])
-  .controller('ItemListController', function($scope) {
+  .controller('ItemListController', function($scope, $http) {
     $scope.itemList = [];
     $scope.selectionCounter = 0;
     $scope.singleSelection = false;
@@ -9,7 +9,12 @@ angular.module('ItemApp', [])
     $scope.total = 0;
     $scope.totalWords = "";
     $scope.printer = 0;
- 
+    $scope.invoice = 0;
+
+    $http.get("https://jewel-api.herokuapp.com/jewel-inv").then(function (response) {
+        $scope.invoice = "00000"+ (response.data.invoiceCount + 1);
+    });
+
     $scope.additem = function() {
       $scope.itemList.push({name:$scope.itemName, qty:$scope.itemQty, rate:$scope.itemRate, gross:$scope.itemQty * $scope.itemRate, done:false});
       $scope.gross = $scope.gross + $scope.itemQty * $scope.itemRate;
@@ -83,6 +88,9 @@ angular.module('ItemApp', [])
 
     $scope.receiptUpdate = function(){
       $scope.gross = 0;
+      if(isNaN($scope.vat_value)){
+        $scope.vat_value = 0;
+      }
       angular.forEach($scope.itemList, function(item) {
           $scope.gross = $scope.gross + item.gross;
       });
@@ -114,5 +122,18 @@ angular.module('ItemApp', [])
     $scope.printPage = function(){
       $scope.printer = !$scope.printer;
     }
+
+
+    $scope.save = function(){
+      $http.get("").then(function (response) {
+        alert(response.data);
+      });
+    }
+
+    $scope.seller_buyer_change = function(){
+       $("#seller_details").html($scope.seller.replace(/\r?\n/g, '<br />'));
+       $("#buyer_details").html($scope.buyer.replace(/\r?\n/g, '<br />'));
+    }
+
 
 });
