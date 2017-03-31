@@ -1,0 +1,64 @@
+<div ng-controller="LabourEntryController">
+    <h2 align="center">Add a labour work entry</h2>
+
+    <form name='entryForm' novalidate>
+
+        <!--Customer name-->
+        Enter Customer Name
+        <input type="text" name="customer" placeholder="customer name"
+          ng-model="new_entry.customer"
+          required
+          minlength="4"
+          ng-maxlength="20">
+          {{ new_entry.customer }}
+          <span
+            ng-if="(entryForm.customer.$error.minlength || entryForm.customer.$error.required) && entryForm.customer.$touched">
+            Customer name must be at least 4 characters long
+          </span>
+          <span ng-if="entryForm.customer.$error.maxlength && entryForm.customer.$touched">
+            Customer name not be longer than 10 characters
+          </span>
+          <br>
+
+
+    <!--labour details-->
+        Enter Labour Name
+        <input type="text" name="labour" placeholder="labour name"
+          ng-model="new_entry.labour"
+          required
+          minlength="4"
+          ng-maxlength="20">
+          {{ new_entry.labour }}
+          <span
+            ng-if="(entryForm.labour.$error.minlength || entryForm.labour.$error.required) && entryForm.labour.$touched">
+            labour name must be at least 4 characters long
+          </span>
+          <span ng-if="entryForm.labour.$error.maxlength && entryForm.labour.$touched">
+            labour name not be longer than 10 characters
+          </span>
+          <br>
+
+          <!--Item entry-->
+          
+            <input type="text" ng-model="addItemName" >
+            <input type="text" ng-model="addItemQuantity" >    
+            <button ng-click="add_item()">Add</button>
+          
+          
+            <div ng-repeat="item in items">
+                <p>
+                    {{item.name}} {{item.qty}} <button ng-click="delete_item($index)">Delete</button>
+                </p>
+            </div>
+
+
+        <button
+          ng-disabled="entryForm.$invalid"
+          ng-click="submit()">Submit</button>
+
+
+
+    </form>
+
+
+</div>

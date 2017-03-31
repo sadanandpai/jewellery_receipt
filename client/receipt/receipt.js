@@ -1,5 +1,9 @@
-angular.module('ItemApp', [])
-  .controller('ItemListController', function($scope, $http) {
+(function(){
+
+var app = angular.module('JewelApp');
+  app.controller('ReceiptEntryController',ReceiptEntryController)
+
+  function ReceiptEntryController(jewelService,$scope, $http,$window) {
     $scope.itemList = [];
     $scope.selectionCounter = 0;
     $scope.singleSelection = false;
@@ -10,9 +14,13 @@ angular.module('ItemApp', [])
     $scope.totalWords = "";
     $scope.printer = 0;
     $scope.invoice = 0;
+    $scope.date_of_purchase ='';
+    $scope.seller= '1st Floor, Sri Ramakrishna Tower\nBadagupet, Corporation Road, Udupi - 576 101\nMobile: 9844295619, 8880651106\nTIN : ';
+    $scope.buyer= '';
 
-    $http.get("https://jewel-api.herokuapp.com/jewel-inv").then(function (response) {
-        $scope.invoice = "00000"+ (response.data.invoiceCount + 1);
+    $http.get("http://localhost:3000/count/jewel").then(function (response) {
+        $scope.invoice = "000"+ (response.data.invoiceCount + 1);
+        $scope.seller_buyer_change();
     });
 
     $scope.additem = function() {
@@ -66,6 +74,7 @@ angular.module('ItemApp', [])
             }
         });
 
+        $scope.selectionCount();
         $scope.receiptUpdate();
       }
     };
@@ -113,26 +122,87 @@ angular.module('ItemApp', [])
       str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
       str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
       str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
-      str += (n[5] != 0) ? (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
-      return str;
+      str += (n[5] != 0) ? (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+      return str + ' only';
     }
 
 
     $scope.printPage = function(){
-      $scope.printer = !$scope.printer;
-    }
+     //$scope.printer = !$scope.printer;
+     
+     if($scope.itemList.length < 1){
+       alert("Please add Atleast one item" + $scope.date_of_purchase + "d");
+     }else if($scope.date_of_purchase == ""){
+       alert("Please set the date");
+     }else{
+       insert_record();
+       $window.location.href = 'preview/preview.html';
+     }
+     
+     //$window.open('http://localhost:3000/preview/preview.html');
 
 
-    $scope.save = function(){
-      $http.get("").then(function (response) {
-        alert(response.data);
-      });
-    }
+  };
 
     $scope.seller_buyer_change = function(){
-       $("#seller_details").html($scope.seller.replace(/\r?\n/g, '<br />'));
-       $("#buyer_details").html($scope.buyer.replace(/\r?\n/g, '<br />'));
+       $("#seller_details").html("<font size='3x'><b>Chaitrali Gold</b></font><br><font size='2x'><b>Gold & Silver Melting Shop</b></font><br>" + $scope.seller.replace(/\r?\n/g, '<br />'));
+       $("#buyer_details").html("<u>Buyer</u><br>" + $scope.buyer.replace(/\r?\n/g, '<br />'));
+    };
+
+
+    $scope.comma_seperator = function (amount) {
+        str = String(amount.toFixed(2)).split(".");
+        len = str[0].length;
+        if(len == 4)
+          str[0] = str[0][0] + "," + str[0][1]+str[0][2]+str[0][3];
+        else if(len == 5)
+          str[0] = str[0][0]+str[0][1] + "," + str[0][2]+str[0][3]+str[0][4];
+        else if(len == 6)
+          str[0] = str[0][0] + "," + str[0][1]+str[0][2] + "," + str[0][3]+str[0][4]+str[0][5];
+        else if(len == 7)
+          str[0] = str[0][0]+str[0][1] + "," + str[0][2]+str[0][3] + "," + str[0][4]+str[0][5]+str[0][6];
+        else if(len == 8)
+          str[0] = str[0][0] + "," + str[0][1]+str[0][2] + "," + str[0][3]+str[0][4] + "," + str[0][5]+str[0][6]+str[0][7];
+        else if (len == 9)
+          str[0] = str[0][0]+str[0][1] + "," + str[0][2]+str[0][3] + "," + str[0][4]+str[0][5] + "," + str[0][6]+str[0][7]+str[0][8];
+
+        return str[0] + "." + ((str[1] != undefined) ? str[1] : '00');
     }
 
 
-});
+
+function insert_record(){
+
+    var receiptData = { 
+                invoice_num: $scope.invoice,
+                buyer: $scope.buyer,
+                seller: $scope.seller,
+                items : $scope.itemList,
+                total_items: $scope.itemList.length,
+                vat:$scope.vat,
+                vat_value:$scope.vat_value,
+                date_of_purchase: $scope.date_of_purchase.toString(),
+                gross:$scope.gross,
+                total_amt: $scope.total,
+                total_words: $scope.totalWords
+              };
+      
+      console.log(receiptData);
+      localStorage.clear();
+      localStorage.setItem('previewItem',JSON.stringify(receiptData));
+      console.log(localStorage);
+
+      var promise = jewelService.insert_record(receiptData);
+      promise.then(function(res){
+        alert("Receipt saved");
+        return receiptData;
+      })
+      .catch(function(err){
+        console.log(err);
+      });
+
+}
+
+};
+
+})();

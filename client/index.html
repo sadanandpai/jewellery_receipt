@@ -1,0 +1,57 @@
+<!doctype html>
+<html ng-app="JewelApp">
+		<head>
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+  			<script src="lib/angular.min.js"></script>
+        <script src="lib/angular-ui-router.min.js"></script>
+        <link rel="stylesheet" href="lib/bootstrap.min.css">
+        <script src="lib/jquery.min.js"></script>
+  			<script src="lib/bootstrap.min.js"></script>
+
+		</head>
+
+    <style>
+        .nav ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          width: 200px;
+          background-color: #555;
+         }
+
+        .nav li a {
+          display: inline-block;
+          color: #000;
+          padding: 8px 16px;
+          text-decoration: none;
+          background-color: #fee;
+        }
+
+        /* Change the link color on hover */
+        .nav li a:hover {
+          background-color: blue;
+          color: white;
+        }
+    </style>
+<body>
+
+
+<ul class="nav">
+  <li><a ui-sref="receipt">Receipt</a><a ui-sref="receipt_list">Receipt List</a></li>
+</ul>
+
+      <!--<a ui-sref="labour_entry">labour entry</a><br>
+      <a ui-sref="labour_list">labour list</a>-->
+
+      <ui-view></ui-view>
+			<script src="app.js"></script>
+			<script src="shared/ang-services.js"></script>
+      <script src="receipt/receipt.js"></script>
+      <script src="receipt_list/receipt_list.js"></script>
+      <script src="labour_entry/labour_entry.js"></script>
+      <script src="labour_list/labour_list.js"></script>
+      <script src="preview/preview.js"></script>
+
+    </body>
+
+</html>

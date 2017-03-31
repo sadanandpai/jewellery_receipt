@@ -1,0 +1,139 @@
+
+<style type="text/css">
+			.table-bordered{
+				table-layout: fixed;
+				word-wrap:break-word;
+			}
+			.table-bordered td{
+				padding-left: 3px;
+				padding-right: 3px;
+			}
+			.tdata {
+  				table-layout: fixed;
+  				word-wrap:break-word;
+  			}
+  			.no_row_border td{
+  				border-left: 1px solid #777;
+  				border-right: 1px solid #777;
+  				padding-left: 3px;
+				padding-right: 3px;
+  			}
+  			.no_col_border{
+  				border-left: 1px solid #777;
+  				border-right: 1px solid #777;
+  			}
+			</style>
+		
+	<div ng-controller="ReceiptEntryController" align=center>
+
+		<div >
+				<form ng-submit="additem()">
+					Desc: <input type="text" required="required" ng-model="itemName">
+					Qty: <input type="number" required="required" ng-model="itemQty" step="0.001">
+					Rate: <input type="number" required="required" ng-model="itemRate" step="0.01">
+					<input class="btn-primary" type="submit" value="Add item" />
+				</form>
+				<button ng-click="deleteItem()" ng-show="selectionCounter">Delete</button>
+				<button ng-click="editItem()" ng-show="singleSelection">Edit</button>
+				<button ng-click="updateItem()" ng-show="singleSelection">Update</button>
+				VAT: <input type="number" ng-model="vat_value" ng-change="receiptUpdate()" required="required" step="0.1"/>
+
+				<br><br>
+			</div>
+
+			<table class="table-bordered" width="90%">
+				<tr>
+					<td class="text-center">Tax Invoice</td>
+				</tr>
+			</table>
+
+			<table class="table-bordered" align="center" width="90%">
+				<tr height="80px">
+					<td id="seller_details" valign=top width="50%" ng-model="seller"></td>
+					<td id="buyer_details" valign=top width="50%" ng-model="buyer"></td>
+				</tr>
+				<tr>
+					<td>INVOICE NO : <b>{{invoice}}</b></td>
+					<td class="text-right">Date: <b><input type="date" ng-model="date_of_purchase" id="myDate"></b></td>
+				</tr>
+		</table>
+
+		<table class="table-bordered text-center" align="center" width="90%">
+			<tr>
+				<td width=10%>SL NO</td>
+				<td width=40%>DESCRIPTION</td>
+				<td width=18%>Quantity</td>
+				<td width=14%>Rate/Gms</td>
+				<td width=18%>Amount</td>
+			</tr>
+		</table>
+
+		<table class="no_row_border" height="100px" width=90%>
+			<tr valign="top" ng-repeat="item in itemList">
+				<td width=10% align="center"><input type="checkbox" ng-hide="printer" ng-model="item.done" ng-click="selectionCount()">{{$index+1}}</td>
+				<td width=40% class="tdata">{{item.name}}</td>
+				<td width=18% align="center">{{item.qty.toFixed(3)}} Gms</td>
+				<td width=14% align="right">{{item.rate.toFixed(2)}}</td>
+				<td width=18% align="right">{{comma_seperator(item.gross)}}</td>
+			</tr>
+		</table>
+
+		<table class="table-bordered" width="90%">
+			<tr>
+				<td width=68.1%></td>
+				<td>
+					<table class="no-border" width="100%">
+						<tr>
+							<td>Gross</td>
+							<td align="right">{{comma_seperator(gross)}}</td>
+						</tr>
+						<tr>
+							<td>VAT {{vat_value.toFixed(2)}}%</td>
+							<td align="right">{{comma_seperator(vat)}}</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td><u>Amount in Words</u> : {{totalWords}}</td>
+				<td>
+					<table class="no-border" width="100%">
+						<tr>
+							<td>TOTAL</td>
+							<td align="right">{{comma_seperator(total)}}</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+
+		<table class="no_col_border" width="90%">
+			<tr>
+				<td>
+					&nbsp;<u>Declaration</u><br>
+					&nbsp;We declare that this invoice shows the actual price of the goods <br>described and that allparticulars are true and correct.
+				</td>
+				<td align=right valign=top>
+					For CHAITRALI GOLD&nbsp;&nbsp;&nbsp;
+				</td>
+			</tr>
+		</table>
+
+		<table class="table-bordered" width="90%">
+			<tr>
+				<td class="text-center">This is Computer generated Invoice</td>
+			</tr>
+		</table>
+		<br>
+
+		
+		<button class="button btn" ng-click="printPage()">Save & Print</button>
+		<br>
+
+		<!-- Seller -->
+		<textarea ng-model="seller" rows="5" cols="45" ng-change="seller_buyer_change()"></textarea>
+		<!-- Buyer -->
+		<textarea ng-model="buyer" rows="5" cols="45" ng-change="seller_buyer_change()"></textarea>
+		<br>Buyer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seller
+
+</div>

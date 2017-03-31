@@ -1,0 +1,132 @@
+<!doctype html>
+<html ng-app="JewelAppPreview">
+		<head>
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>-->
+  			<script src="../lib/angular.min.js"></script>
+        <!--<script src="lib/angular-ui-router.min.js"></script>-->
+		    <link rel="stylesheet" href="../lib/bootstrap.min.css">
+  			<script src="../lib/jquery.min.js"></script>
+  			<script src="../lib/bootstrap.min.js"></script>
+  			<title>Previews</title>
+		</head>
+
+
+    <body>
+
+
+<style type="text/css">
+			.table-bordered{
+				table-layout: fixed;
+				word-wrap:break-word;
+			}
+			.table-bordered td{
+				padding-left: 3px;
+				padding-right: 3px;
+			}
+			.tdata {
+  				table-layout: fixed;
+  				word-wrap:break-word;
+  			}
+  			.no_row_border td{
+  				border-left: 1px solid #777;
+  				border-right: 1px solid #777;
+  				padding-left: 3px;
+				padding-right: 3px;
+  			}
+  			.no_col_border{
+  				border-left: 1px solid #777;
+  				border-right: 1px solid #777;
+  			}
+			</style>
+		
+<div ng-controller="previewController" align=center>
+
+			<table class="table-bordered" width="90%">
+				<tr>
+					<td class="text-center">Tax Invoice</td>
+				</tr>
+			</table>
+
+			<table class="table-bordered" align="center" width="90%">
+				<tr height="80px">
+					<td id="seller_details" valign=top width="50%"></td>
+					<td id="buyer_details" valign=top width="50%"></td>
+				</tr>
+				<tr>
+					<td>INVOICE NO : <b>{{previewItem.invoice_num}}</b></td>
+					<td class="text-right">Date: <b><input type="date" style="border: none; background-color: white" ng-model="date" id="myDate" disabled/></b></td>
+				</tr>
+		</table>
+
+		<table class="table-bordered text-center" align="center" width="90%">
+			<tr>
+				<td width=10%>SL NO</td>
+				<td width=40%>DESCRIPTION</td>
+				<td width=18%>Quantity</td>
+				<td width=14%>Rate/Gms</td>
+				<td width=18%>Amount</td>
+			</tr>
+		</table>
+
+		<table class="no_row_border" height="100px" width=90%>
+			<tr valign="top" ng-repeat="item in previewItem.items">
+				<td width=10% class="tdata text-center">{{$index+1}}</td>
+				<td width=40% class="tdata">{{item.name}}</td>
+				<td width=18% align="center">{{item.qty.toFixed(3)}} Gms</td>
+				<td width=14% align="right">{{item.rate.toFixed(2)}}</td>
+				<td width=18% align="right">{{comma_seperator(item.gross)}}</td>
+			</tr>
+		</table>
+
+		<table class="table-bordered" width="90%">
+			<tr>
+				<td width=68.1%></td>
+				<td>
+					<table class="no-border" width="100%">
+						<tr>
+							<td>Gross</td>
+							<td align="right">{{comma_seperator(previewItem.gross)}}</td>
+						</tr>
+						<tr>
+							<td>VAT {{previewItem.vat_value.toFixed(2)}}%</td>
+							<td align="right">{{comma_seperator(previewItem.vat)}}</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+				<td><u>Amount in Words</u>  :{{previewItem.total_words}}</td>
+				<td>
+					<table class="no-border" width="100%">
+						<tr>
+							<td>TOTAL</td>
+							<td align="right"><b>{{comma_seperator(previewItem.total_amt)}}</b></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+
+		<table class="no_col_border" width="90%">
+			<tr>
+				<td>
+					&nbsp;<u>Declaration</u><br>
+					&nbsp;We declare that this invoice shows the actual price of the goods <br>described and that allparticulars are true and correct.
+				</td>
+				<td align=right valign=top>
+					For CHAITRALI GOLD&nbsp;&nbsp;&nbsp;
+				</td>
+			</tr>
+		</table>
+
+		<table class="table-bordered" width="90%">
+			<tr>
+				<td class="text-center">This is Computer generated Invoice</td>
+			</tr>
+		</table>
+</div>
+
+<script src="preview.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<div ng-controller="ReceiptListController">
+    <h2 align="center"> All Receipts </h2>
+
+
+<div ng-hide="receiptArray.length">
+        <h3 align="center">No Receipts</h3>
+    </div>
+
+
+<div ng-hide="!receiptArray.length">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Invoice Num</th>
+                <th>Buyer</th>
+                <th>Items</th>
+                <th>Total Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+            <tbody>
+                <tr ng-repeat="receipt in receiptArray">
+                <td class="col-md-2"><button type="button" class="button btn btn-danger" ng-click = 'delete_receipt(receipt._id)'>Delete</button>
+                <button type="button" class="btn btn-success" ng-click = 'print_view($index)'>Print</button></td>
+                <th scope="row">{{receipt.invoice_num}}</th>
+                <td>{{receipt.buyer}}</td>
+                <td>{{receipt.total_items}}</td>
+                <td>{{receipt.total_amt}}</td>
+                <td>{{receipt.date_of_purchase.substring(0,16)}}</td>
+                </tr>
+            </tbody>
+        </table>
+</div>    
+    
+</div>
+

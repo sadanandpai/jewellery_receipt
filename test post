@@ -1,0 +1,27 @@
+//jewel
+{
+	"invoice_num": "2",
+	"buyer": "Utkarsh jewel service check 1",
+	"seller": "Utkarsh sell",
+	"items" : [{"item_no": "1","item":"master jewel","qty":"10","amt":"1000"},{"item_no": "12","item":"master2 jewel","qty":"102","amt":"10002"},{"item_no": "12","item":"master2 jewel","qty":"102","amt":"10002"}],
+	"total_items":"1123",
+    "vat":"2",
+	"total_amt": "500000"
+}
+
+//labour service
+{
+	"invoice_num": "1001",
+	"customer": "Utkarsh buyer 1",
+	"labour": "Utkarsh labour 1",
+	"items" : [{"item_no": "1","item":"master jewel","qty":"10","amt":"1000"},{"item_no": "12","item":"master2 jewel","qty":"102","amt":"10002"},{"item_no": "12","item":"master2 jewel","qty":"102","amt":"10002"}],
+	"total_items":"1123",
+    "labour_cost": 500,
+    "vat":"2",
+	"total_amt": "500000"
+}
+
+
+
+
+
